@@ -5,24 +5,10 @@ import (
     "unicode"
 )
 
-const (
-    tokenComment = iota
-    tokenOpenBracket
-    tokenCloseBracket
-    tokenSymbol
-    tokenEqual
-    tokenString
-)
-
 type lexer struct {
     Source    string
     LenSource int
     Cursor    int
-}
-
-type token struct {
-    id    int
-    value string
 }
 
 func (l *lexer) lex() []token {
