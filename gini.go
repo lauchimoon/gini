@@ -38,11 +38,11 @@ func NewFromString(iniString string) (*Ini, error) {
 func (ini *Ini) Get(section, key string) (string, error) {
     sec, ok := (*ini)[section]
     if !ok {
-        return "", fmt.Errorf("section %s does not exist.", section)
+        return "", fmt.Errorf("section '%s' does not exist.", section)
     }
     val, ok := sec[key]
     if !ok {
-        return "", fmt.Errorf("key %s does not exist in section %s.", key, section)
+        return "", fmt.Errorf("key '%s' does not exist in section '%s'.", key, section)
     }
     return val, nil
 }
