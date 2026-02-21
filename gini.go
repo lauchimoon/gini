@@ -36,7 +36,7 @@ func NewFromString(iniString string) (Ini, error) {
     return p.parse()
 }
 
-func Dump(data map[string]map[string]string, outFile io.Writer) {
+func Dump(data Ini, outFile io.Writer) {
     sections := []string{}
     for section := range data {
         sections = append(sections, section)
