@@ -11,7 +11,7 @@ type parser struct {
     Cursor int
 }
 
-func (p *parser) parse() (*Ini, error) {
+func (p *parser) parse() (Ini, error) {
     ini := make(Ini)
     currentSection := ""
     for p.Cursor < len(p.Tokens) {
@@ -56,7 +56,7 @@ func (p *parser) parse() (*Ini, error) {
         }
         p.advance()
     }
-    return &ini, nil
+    return ini, nil
 }
 
 func (p *parser) parseString() (string, error) {

@@ -17,7 +17,7 @@ type reader struct {
     Cursor int
 }
 
-func NewFromFile(filePath string) (*Ini, error) {
+func NewFromFile(filePath string) (Ini, error) {
     f, err := os.Open(filePath)
     if err != nil {
         return nil, err
@@ -30,7 +30,7 @@ func NewFromFile(filePath string) (*Ini, error) {
     return NewFromString(string(contents))
 }
 
-func NewFromString(iniString string) (*Ini, error) {
+func NewFromString(iniString string) (Ini, error) {
     l := &lexer{Source: iniString, LenSource: len(iniString), Cursor: 0}
     p := &parser{Tokens: l.lex(), Cursor: 0}
     return p.parse()
@@ -61,8 +61,8 @@ func Dump(data map[string]map[string]string, outFile io.Writer) {
     }
 }
 
-func (ini *Ini) Get(section, key string) (string, error) {
-    sec, ok := (*ini)[section]
+func (ini Ini) Get(section, key string) (string, error) {
+    sec, ok := ini[section]
     if !ok {
         return "", fmt.Errorf("section '%s' does not exist.", section)
     }
