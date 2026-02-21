@@ -1,6 +1,7 @@
 package gini
 
 import (
+    "fmt"
     "io"
     "os"
 )
@@ -34,3 +35,14 @@ func NewFromString(iniString string) (*Ini, error) {
     return p.parse()
 }
 
+func (ini *Ini) Get(section, key string) (string, error) {
+    sec, ok := (*ini)[section]
+    if !ok {
+        return "", fmt.Errorf("section %s does not exist.", section)
+    }
+    val, ok := sec[key]
+    if !ok {
+        return "", fmt.Errorf("key %s does not exist in section %s.", key, section)
+    }
+    return val, nil
+}
