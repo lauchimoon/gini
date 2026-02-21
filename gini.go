@@ -1,7 +1,6 @@
 package gini
 
 import (
-    "fmt"
     "io"
     "os"
 )
@@ -30,9 +29,8 @@ func NewFromFile(filePath string) (*Ini, error) {
 }
 
 func NewFromString(iniString string) (*Ini, error) {
-    ini := Ini{}
     l := &lexer{Source: iniString, LenSource: len(iniString), Cursor: 0}
-    fmt.Println(l.lex())
-    return &ini, nil
+    p := &parser{Tokens: l.lex(), Cursor: 0}
+    return p.parse()
 }
 
