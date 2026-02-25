@@ -23,7 +23,8 @@ func (l *lexer) lex() []token {
             })
 
             c = l.consume()
-            for c != '\n' {
+            for l.Cursor < l.LenSource &&
+                c != '\n' {
                 valueBuilder.WriteRune(c)
                 c = l.consume()
             }
@@ -36,11 +37,16 @@ func (l *lexer) lex() []token {
         if unicode.IsLetter(c) || unicode.IsDigit(c) {
             valueBuilder.WriteRune(c)
             c = l.consume()
-            for c != '\n' &&
+            for l.Cursor < l.LenSource &&
+                c != '\n' &&
                 (unicode.IsLetter(c) || unicode.IsDigit(c) ||
                  unicode.IsSpace(c) || (unicode.IsPunct(c) && c != '"' && c != ']')) {
                 valueBuilder.WriteRune(c)
                 c = l.consume()
+            }
+            // We reached the end of the stream, so write the missing character
+            if l.Cursor >= l.LenSource {
+                valueBuilder.WriteRune(c)
             }
             tokens = append(tokens, token{
                 id: tokenSymbol,
