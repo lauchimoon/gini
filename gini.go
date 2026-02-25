@@ -11,12 +11,6 @@ type Ini map[string]Section
 
 type Section map[string]string
 
-type reader struct {
-    Source string
-    LenSource int
-    Cursor int
-}
-
 func NewFromFile(filePath string) (Ini, error) {
     f, err := os.Open(filePath)
     if err != nil {
