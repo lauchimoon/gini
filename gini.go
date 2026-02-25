@@ -11,7 +11,7 @@ type Ini map[string]Section
 
 type Section map[string]string
 
-func NewFromFile(filePath string) (Ini, error) {
+func LoadFromFile(filePath string) (Ini, error) {
     f, err := os.Open(filePath)
     if err != nil {
         return nil, err
@@ -21,10 +21,10 @@ func NewFromFile(filePath string) (Ini, error) {
     if err != nil {
         return nil, err
     }
-    return NewFromString(string(contents))
+    return LoadFromString(string(contents))
 }
 
-func NewFromString(iniString string) (Ini, error) {
+func LoadFromString(iniString string) (Ini, error) {
     l := &lexer{Source: iniString, LenSource: len(iniString), Cursor: 0}
     p := &parser{Tokens: l.lex(), Cursor: 0}
     return p.parse()
